@@ -6,7 +6,7 @@ class Player {
 
   registerMoving() {
     document.addEventListener("keydown", (e) => {
-      this.movePlayer(e);
+      this.movePlayer(e); 
     });
   }
 
@@ -44,13 +44,35 @@ class Player {
     }
   };
 
+  getPlayerSize() {
+    const playerDiv = document.querySelector("#pion");
+    const playerStyle = getComputedStyle(playerDiv);
+
+    return {
+      width: parseInt(playerStyle.width),
+      height: parseInt(playerStyle.height),
+    }
+  }
+  
+  getContainerSize() {
+    const gameContainer = document.querySelector("#gameContainer")
+    const gameAeraStyle = getComputedStyle(gameContainer)
+
+    return {
+      width: parseInt(gameAeraStyle.width),
+      height: parseInt(gameAeraStyle.height),
+    }
+  }
   // returneaza true sau false
   checkBorders(nextLeft, nextTop) {
+    const gameContainer = this.getContainerSize();
+    const playerSize = this.getPlayerSize();
+
     if (
       !(nextLeft < 0) &&
       !(nextTop < 0) &&
-      !(nextLeft > 280) &&
-      !(nextTop > 280)
+      !(nextLeft > gameContainer.width - playerSize.width) &&
+      !(nextTop > gameContainer.height - playerSize.height)
     ) {
       return true;
     } else return false;
